@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hold My Beer Analytics | AI Solutions for Houston Small Business</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* === TOKENS === */
+        :root {
+            --green-deep: #0D2B1F;
+            --green-mid:  #1A4A31;
+            --gold:       #C9A84C;
+            --gold-light: #E5C97A;
+            --off-white:  #F5F0E8;
+            --white:      #FFFFFF;
+            --navy:       #1B2A4A;
+            --text-dark:  #1A1A1A;
+            --text-muted: #666666;
+            --font-display: 'Bebas Neue', sans-serif;
+            --font-body:    'Inter', sans-serif;
+            --font-mono:    'Space Mono', monospace;
+        }
+
+        /* === RESET === */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html  { scroll-behavior: smooth; }
+        body  { font-family: var(--font-body); background: var(--off-white); color: var(--text-dark); overflow-x: hidden; }
+        img   { max-width: 100%; display: block; }
+        a     { text-decoration: none; color: inherit; }
+
+        /* === BINARY TEXTURE === */
+        .binary-bg { position: relative; background-color: var(--green-deep); }
+        .binary-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Ctext x='2'  y='14' fill='rgba(201,168,76,0.07)' font-family='monospace' font-size='11'%3E1 0 1 1 0%3C/text%3E%3Ctext x='2'  y='30' fill='rgba(201,168,76,0.05)' font-family='monospace' font-size='11'%3E0 1 0 0 1%3C/text%3E%3Ctext x='2'  y='46' fill='rgba(201,168,76,0.07)' font-family='monospace' font-size='11'%3E1 1 0 1 0%3C/text%3E%3Ctext x='2'  y='62' fill='rgba(201,168,76,0.05)' font-family='monospace' font-size='11'%3E0 0 1 1 1%3C/text%3E%3Ctext x='2'  y='78' fill='rgba(201,168,76,0.07)' font-family='monospace' font-size='11'%3E1 0 0 1 0%3C/text%3E%3Ctext x='2'  y='94' fill='rgba(201,168,76,0.05)' font-family='monospace' font-size='11'%3E0 1 1 0 1%3C/text%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+        .binary-bg > * { position: relative; z-index: 1; }
+
+        /* === NAV === */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            background: rgba(13, 43, 31, 0.97);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(201,168,76,0.18);
+            padding: 0 2.5rem;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-logo {
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            color: var(--gold);
+            letter-spacing: 0.06em;
+            line-height: 1;
+        }
+        .nav-logo span { color: rgba(255,255,255,0.85); }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2.25rem;
+            list-style: none;
+        }
+        .nav-links a {
+            color: rgba(255,255,255,0.75);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--gold); }
+        .nav-cta {
+            background: var(--gold) !important;
+            color: var(--green-deep) !important;
+            padding: 0.5rem 1.25rem !important;
+            border-radius: 3px;
+            font-weight: 700 !important;
+        }
+        .nav-cta:hover { background: var(--gold-light) !important; }
+
+        /* === HERO === */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 80px 2.5rem 5rem;
+        }
+        .hero-inner { max-width: 1100px; margin: 0 auto; width: 100%; }
+        .hero-eyebrow {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--gold);
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            margin-bottom: 1.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+        }
+        .hero-eyebrow::before {
+            content: '';
+            display: block;
+            width: 36px;
+            height: 1px;
+            background: var(--gold);
+            flex-shrink: 0;
+        }
+        .hero-headline {
+            font-family: var(--font-display);
+            font-size: clamp(3.75rem, 9vw, 7.5rem);
+            line-height: 0.92;
+            color: var(--white);
+            margin-bottom: 1.75rem;
+            letter-spacing: 0.02em;
+        }
+        .hero-headline .gold { color: var(--gold); }
+        .hero-sub {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.7);
+            max-width: 520px;
+            line-height: 1.65;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+        }
+        .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .btn-primary {
+            background: var(--gold);
+            color: var(--green-deep);
+            font-weight: 700;
+            font-size: 0.825rem;
+            letter-spacing: 0.1em;
+            padding: 0.9rem 2rem;
+            border-radius: 3px;
+            text-transform: uppercase;
+            transition: background 0.2s, transform 0.15s;
+            display: inline-block;
+        }
+        .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+        .btn-secondary {
+            border: 1px solid rgba(201,168,76,0.45);
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 0.825rem;
+            letter-spacing: 0.1em;
+            padding: 0.9rem 2rem;
+            border-radius: 3px;
+            text-transform: uppercase;
+            transition: border-color 0.2s, background 0.2s;
+            display: inline-block;
+        }
+        .btn-secondary:hover { border-color: var(--gold); background: rgba(201,168,76,0.07); }
+        .hero-badges {
+            margin-top: 4rem;
+            display: flex;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+        }
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+        .badge-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--gold);
+            flex-shrink: 0;
+        }
+
+        /* === SHARED SECTION === */
+        section { padding: 5.5rem 2.5rem; }
+        .section-inner { max-width: 1100px; margin: 0 auto; }
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--gold);
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            margin-bottom: 0.6rem;
+        }
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.05;
+            margin-bottom: 0.875rem;
+            letter-spacing: 0.02em;
+        }
+        .section-sub {
+            color: var(--text-muted);
+            font-size: 0.975rem;
+            max-width: 560px;
+            line-height: 1.65;
+            margin-bottom: 3rem;
+        }
+
+        /* === WHY US === */
+        .why-section { background: var(--off-white); }
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 1.5rem;
+        }
+        .why-card {
+            padding: 2rem 1.75rem;
+            background: var(--white);
+            border-radius: 6px;
+            border-top: 3px solid var(--gold);
+            box-shadow: 0 2px 14px rgba(0,0,0,0.055);
+        }
+        .why-icon { font-size: 1.75rem; margin-bottom: 1rem; }
+        .why-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+            color: var(--green-deep);
+        }
+        .why-card p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.65; }
+
+        /* === SERVICES === */
+        .services-section { background: var(--green-deep); }
+        .services-section .section-title { color: var(--white); }
+        .services-section .section-sub  { color: rgba(255,255,255,0.55); }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .service-card {
+            background: rgba(255,255,255,0.045);
+            border: 1px solid rgba(201,168,76,0.18);
+            border-radius: 6px;
+            padding: 2rem 1.75rem;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .service-card:hover {
+            border-color: rgba(201,168,76,0.6);
+            background: rgba(201,168,76,0.04);
+        }
+        .service-num {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--gold);
+            letter-spacing: 0.18em;
+            margin-bottom: 1rem;
+        }
+        .service-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--white);
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.04em;
+        }
+        .service-card p {
+            font-size: 0.875rem;
+            color: rgba(255,255,255,0.58);
+            line-height: 1.7;
+            margin-bottom: 1.25rem;
+        }
+        .service-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .tag {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 2px;
+            background: rgba(201,168,76,0.1);
+            color: var(--gold);
+            letter-spacing: 0.06em;
+        }
+
+        /* === HOW IT WORKS === */
+        .how-section { background: var(--navy); }
+        .how-section .section-title { color: var(--white); }
+        .how-section .section-sub  { color: rgba(255,255,255,0.55); }
+        .how-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            counter-reset: step;
+        }
+        .how-step {
+            position: relative;
+            padding: 2.25rem 1.75rem 2rem;
+            background: rgba(255,255,255,0.04);
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .how-step-num {
+            font-family: var(--font-display);
+            font-size: 2.75rem;
+            line-height: 1;
+            color: var(--gold);
+            margin-bottom: 0.875rem;
+            display: block;
+        }
+        .how-step h3 {
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            color: var(--white);
+            letter-spacing: 0.04em;
+            margin-bottom: 0.6rem;
+        }
+        .how-step p {
+            font-size: 0.875rem;
+            color: rgba(255,255,255,0.6);
+            line-height: 1.7;
+            font-weight: 300;
+        }
+        .how-arrow {
+            display: none;
+        }
+
+        /* === PRICING === */
+        .pricing-section { background: var(--off-white); }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            align-items: start;
+        }
+        .price-card {
+            background: var(--white);
+            border-radius: 6px;
+            padding: 2.25rem 2rem;
+            box-shadow: 0 2px 14px rgba(0,0,0,0.055);
+            border: 1px solid #E5E5E0;
+            position: relative;
+        }
+        .price-card.featured {
+            border: 2px solid var(--gold);
+            box-shadow: 0 6px 28px rgba(201,168,76,0.14);
+        }
+        .price-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gold);
+            color: var(--green-deep);
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+        .price-tier {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--gold);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 0.6rem;
+        }
+        .price-name {
+            font-family: var(--font-display);
+            font-size: 1.65rem;
+            color: var(--green-deep);
+            margin-bottom: 1rem;
+            letter-spacing: 0.04em;
+        }
+        .price-amount { margin-bottom: 0.4rem; }
+        .price-amount .currency {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            vertical-align: top;
+            margin-top: 0.55rem;
+            display: inline-block;
+        }
+        .price-amount .amount {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            color: var(--text-dark);
+            letter-spacing: -0.01em;
+        }
+        .price-amount .amount-text {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--text-dark);
+            letter-spacing: 0.02em;
+        }
+        .price-monthly {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+        .price-divider { height: 1px; background: #EEEEE8; margin-bottom: 1.5rem; }
+        .price-features { list-style: none; margin-bottom: 2rem; }
+        .price-features li {
+            font-size: 0.875rem;
+            color: var(--text-dark);
+            padding: 0.4rem 0;
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+            line-height: 1.5;
+        }
+        .price-features li::before {
+            content: '✓';
+            color: var(--gold);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .price-cta {
+            display: block;
+            text-align: center;
+            padding: 0.875rem;
+            border-radius: 3px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: all 0.2s;
+        }
+        .price-cta-primary { background: var(--gold); color: var(--green-deep); }
+        .price-cta-primary:hover { background: var(--gold-light); }
+        .price-cta-outline { border: 1.5px solid var(--green-deep); color: var(--green-deep); }
+        .price-cta-outline:hover { background: var(--green-deep); color: var(--white); }
+
+        /* === ABOUT === */
+        .about-section { background: var(--navy); }
+        .about-inner {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 5rem;
+            align-items: center;
+        }
+        .about-section .section-label { color: var(--gold); }
+        .about-section .section-title { color: var(--white); }
+        .about-text p {
+            color: rgba(255,255,255,0.65);
+            line-height: 1.75;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            font-weight: 300;
+        }
+        .cred-list { list-style: none; margin-top: 1.75rem; }
+        .cred-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            padding: 0.55rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            font-size: 0.875rem;
+            color: rgba(255,255,255,0.75);
+        }
+        .cred-list li:last-child { border-bottom: none; }
+        .cred-icon { color: var(--gold); }
+        /* Shield SVG */
+        .shield-wrap { display: flex; align-items: center; justify-content: center; }
+        .shield-svg-text {
+            font-family: var(--font-display);
+            font-size: 13px;
+            fill: var(--gold);
+            letter-spacing: 2px;
+        }
+        .shield-svg-sub {
+            font-family: var(--font-mono);
+            font-size: 7px;
+            fill: rgba(255,255,255,0.35);
+            letter-spacing: 2px;
+        }
+
+        /* === CONTACT === */
+        .contact-section { background: var(--green-deep); }
+        .contact-section .section-title { color: var(--white); }
+        .contact-section .section-sub  { color: rgba(255,255,255,0.55); }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.6fr;
+            gap: 4.5rem;
+            align-items: start;
+        }
+        .contact-info h3 {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            color: var(--gold);
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+        .contact-info p {
+            font-size: 0.875rem;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.7;
+            margin-bottom: 1.75rem;
+            font-weight: 300;
+        }
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.875rem;
+            font-size: 0.875rem;
+            color: rgba(255,255,255,0.65);
+        }
+        .contact-detail .icon { color: var(--gold); }
+        .contact-form { display: grid; gap: 1rem; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .form-group { display: flex; flex-direction: column; gap: 0.35rem; }
+        .form-group label {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            color: var(--gold);
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.13);
+            border-radius: 3px;
+            padding: 0.75rem 1rem;
+            color: var(--white);
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            outline: none;
+            transition: border-color 0.2s;
+            -webkit-appearance: none;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus { border-color: var(--gold); }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder { color: rgba(255,255,255,0.25); }
+        .form-group select option { background: #1A4A31; }
+        .form-group textarea { resize: vertical; min-height: 110px; }
+        .form-submit {
+            background: var(--gold);
+            color: var(--green-deep);
+            border: none;
+            padding: 1rem;
+            border-radius: 3px;
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: 0.825rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .form-submit:hover { background: var(--gold-light); }
+
+        /* === FOOTER === */
+        footer {
+            background: rgba(0,0,0,0.35);
+            border-top: 1px solid rgba(201,168,76,0.12);
+            padding: 2rem 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .footer-logo {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            color: var(--gold);
+            letter-spacing: 0.06em;
+        }
+        .footer-sub {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            color: rgba(255,255,255,0.25);
+            letter-spacing: 0.1em;
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            section { padding: 4rem 1.5rem; }
+            nav { padding: 0 1.5rem; }
+            .hero { padding: 80px 1.5rem 4rem; }
+            .about-inner { grid-template-columns: 1fr; }
+            .shield-wrap { display: none; }
+            .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .form-row { grid-template-columns: 1fr; }
+            footer { flex-direction: column; text-align: center; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <div class="nav-logo">HOLD MY BEER <span>ANALYTICS</span></div>
+    <ul class="nav-links">
+        <li><a href="#why">Why Us</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact" class="nav-cta">Let's Talk</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<header class="hero binary-bg">
+    <div class="hero-inner">
+        <p class="hero-eyebrow">Houston, TX &nbsp;·&nbsp; Veteran-Owned &nbsp;·&nbsp; AI-Powered</p>
+        <h1 class="hero-headline">
+            HOLD MY<br>
+            <span class="gold">BEER.</span><br>
+            I GOT THIS.
+        </h1>
+        <p class="hero-sub">I build websites and AI systems for local businesses. No buzzwords, no agency runaround, no breaking the bank, because your cousin's nephew who "does computers" probably isn't cutting it anymore.</p>
+        <div class="hero-actions">
+            <a href="#pricing" class="btn-primary">See What It Costs</a>
+            <a href="#contact" class="btn-secondary">Let's Talk Shop</a>
+        </div>
+        <div class="hero-badges">
+            <span class="badge"><span class="badge-dot"></span>Veteran Owned</span>
+            <span class="badge"><span class="badge-dot"></span>Houston Local</span>
+            <span class="badge"><span class="badge-dot"></span>Quality Over Quantity</span>
+            <span class="badge"><span class="badge-dot"></span>Real Human, Not a Chatbot</span>
+        </div>
+    </div>
+</header>
+
+<!-- WHY US -->
+<section class="why-section" id="why">
+    <div class="section-inner">
+        <p class="section-label">Why Work With Me</p>
+        <h2 class="section-title">No Agency. No Markup. Just Me.</h2>
+        <p class="section-sub">You won't get passed to an intern or buried in a support ticket. When you hire me, you get me, the guy who actually builds the thing and answers the phone.</p>
+        <div class="why-grid">
+            <div class="why-card">
+                <div class="why-icon">🎖️</div>
+                <h3>Honor &amp; Integrity</h3>
+                <p>Military taught me to say what I'll do and then do it. I'd rather under-promise and over-deliver than sell you something you don't need.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon">📍</div>
+                <h3>Houston Born &amp; Raised</h3>
+                <p>I'm right here in Porter. We can grab coffee, I can swing by your shop, and I actually care how your business does. We're neighbors..</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon">🍺</div>
+                <h3>I Actually Love This Stuff</h3>
+                <p>This isn't a side hustle I'm phoning in. I geek out over AI and clean systems. You get someone genuinely excited to solve your problem.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon">🤝</div>
+                <h3>Quality Over Quantity</h3>
+                <p>I take on a handful of clients at a time, on purpose. You get my full attention, not a spot in line behind 50 other projects.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services-section binary-bg" id="services">
+    <div class="section-inner">
+        <p class="section-label">What I Do</p>
+        <h2 class="section-title">Three Ways I Can Make Your Business Run Smarter</h2>
+        <p class="section-sub">Pick one or stack all three. Every job gets scoped to what you actually need, not what sounds impressive on a sales call.</p>
+        <div class="services-grid">
+            <div class="service-card">
+                <p class="service-num">01 / Websites</p>
+                <h3>Custom Website Build</h3>
+                <p>A clean, fast, mobile-ready website that looks like your business, not some cookie-cutter template. Built to turn visitors into customers and actually show up on Google.</p>
+                <div class="service-tags">
+                    <span class="tag">Responsive Design</span>
+                    <span class="tag">SEO Ready</span>
+                    <span class="tag">Fast Load</span>
+                    <span class="tag">Contact Forms</span>
+                </div>
+            </div>
+            <div class="service-card">
+                <p class="service-num">02 / Automation</p>
+                <h3>Workflow & AI Automation</h3>
+                <p>Stop doing by hand what a system can handle on its own. I'll connect your tools and set up AI workflows that give you back real hours every week, time you can spend actually running the business.</p>
+                <div class="service-tags">
+                    <span class="tag">Email Automation</span>
+                    <span class="tag">Lead Capture</span>
+                    <span class="tag">AI Chatbots</span>
+                    <span class="tag">Smart Notifications</span>
+                </div>
+            </div>
+            <div class="service-card">
+                <p class="service-num">03 / Integrations</p>
+                <h3>CRM & System Connections</h3>
+                <p>Your POS, email list, accounting software, and website all talking to each other instead of living in separate worlds. One clear picture of what's actually happening in your business.</p>
+                <div class="service-tags">
+                    <span class="tag">CRM Setup</span>
+                    <span class="tag">POS Connect</span>
+                    <span class="tag">Dashboards</span>
+                    <span class="tag">Reporting</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+    <div class="section-inner">
+        <p class="section-label">How It Works</p>
+        <h2 class="section-title">Three Steps. No Mystery.</h2>
+        <p class="section-sub">You've probably never hired someone for this before. That's fine.. Here's exactly how it goes, start to finish.</p>
+        <div class="how-grid">
+            <div class="how-step">
+                <span class="how-step-num">01</span>
+                <h3>We Talk</h3>
+                <p>Free 30-minute call or coffee. You tell me about your business and what's driving you nuts. I'll tell you straight whether I can help and what it'd realistically cost.</p>
+            </div>
+            <div class="how-step">
+                <span class="how-step-num">02</span>
+                <h3>I Build</h3>
+                <p>I get to work and keep you in the loop. No disappearing for three weeks.. You'll see progress, give feedback, and know exactly where things stand the whole way through.</p>
+            </div>
+            <div class="how-step">
+                <span class="how-step-num">03</span>
+                <h3>You Grow</h3>
+                <p>Your site goes live and your systems start working for you. I stick around to maintain it, tweak it, and make sure it keeps earning its keep month after month.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+    <div class="section-inner">
+        <p class="section-label">Pricing</p>
+        <h2 class="section-title">Straightforward Investment. No Surprises.</h2>
+        <p class="section-sub">Every package gets you direct line to the person actually building your stuff. Just me. Pick a starting point and we'll scope the rest together over a coffee.</p>
+        <div class="pricing-grid">
+            <!-- Tier 1 -->
+            <div class="price-card">
+                <p class="price-tier">Tier 01</p>
+                <p class="price-name">Launch Package</p>
+                <div class="price-amount">
+                    <span class="currency">$</span><span class="amount">1,500</span>
+                </div>
+                <p class="price-monthly">+ $250 / month maintenance</p>
+                <div class="price-divider"></div>
+                <ul class="price-features">
+                    <li>5-page custom website</li>
+                    <li>Mobile responsive design</li>
+                    <li>Contact form + Google Maps</li>
+                    <li>Basic SEO setup</li>
+                    <li>Hosting & monthly updates included</li>
+                </ul>
+                <a href="#contact" class="price-cta price-cta-outline">Get Started</a>
+            </div>
+            <!-- Tier 2 (featured) -->
+            <div class="price-card featured">
+                <div class="price-badge">Most Popular</div>
+                <p class="price-tier">Tier 02</p>
+                <p class="price-name">Growth Package</p>
+                <div class="price-amount">
+                    <span class="currency">$</span><span class="amount">3,000</span>
+                </div>
+                <p class="price-monthly">+ $350 / month retainer</p>
+                <div class="price-divider"></div>
+                <ul class="price-features">
+                    <li>Everything in Launch</li>
+                    <li>CRM setup &amp; integration</li>
+                    <li>AI-powered lead capture workflow</li>
+                    <li>Email automation (up to 3 sequences)</li>
+                    <li>Monthly performance report</li>
+                    <li>1 system integration (POS, booking, etc.)</li>
+                </ul>
+                <a href="#contact" class="price-cta price-cta-primary">Get Started</a>
+            </div>
+            <!-- Tier 3 -->
+            <div class="price-card">
+                <p class="price-tier">Tier 03</p>
+                <p class="price-name">Custom Solution</p>
+                <div class="price-amount">
+                    <span class="amount-text">Let's Talk</span>
+                </div>
+                <p class="price-monthly">Custom scope · Custom pricing</p>
+                <div class="price-divider"></div>
+                <ul class="price-features">
+                    <li>Multi-system integrations</li>
+                    <li>Custom AI dashboards &amp; analytics</li>
+                    <li>Inventory &amp; workflow automation</li>
+                    <li>Ongoing development retainer</li>
+                    <li>Priority support</li>
+                </ul>
+                <a href="#contact" class="price-cta price-cta-outline">Contact Us</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+    <div class="section-inner">
+        <div class="about-inner">
+            <div class="about-text">
+                <p class="section-label">About</p>
+                <h2 class="section-title">Just a GI Guy Who's Really Into This Stuff.</h2>
+                <p>Here's the honest version: I'm a veteran who got hooked on data and AI, went and got the degrees, and now I build websites and smart systems for local businesses because I genuinely love doing it. No corporate fluff. No "synergy." Just good work, done right.</p>
+                <p>Before this, I spent years helping fellow veterans get the support and recognition they earned, making sure good people weren't left behind by a complicated system. That tells you what you need to know about how I operate: I'm in your corner, I'll shoot you straight, and I won't try to break your bank to pad mine. Quality over quantity, every time.</p>
+                <p>So if you've got a business that needs a real website, or systems that should talk to each other but don't. Let's grab a coffee and figure it out. Worst case, you get free advice and a good conversation.</p>
+                <ul class="cred-list">
+                    <li><span class="cred-icon">★</span> U.S. Military Veteran</li>
+                    <li><span class="cred-icon">★</span> M.S. Data Analytics, University of Houston-Downtown</li>
+                    <li><span class="cred-icon">★</span> 4+ Years Healthcare IT and Clinical Systems Implementation</li>
+                    <li><span class="cred-icon">★</span> AI tools and custom solutions built for real professional workflows and clients</li>
+                    <li><span class="cred-icon">★</span> Porter, TX, Greater Houston Area</li>
+                </ul>
+            </div>
+            <div class="shield-wrap">
+                <!-- Shield SVG -->
+                <svg width="200" height="240" viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M100 8 L188 38 L188 145 L100 232 L12 145 L12 38 Z"
+                          fill="rgba(201,168,76,0.06)"
+                          stroke="rgba(201,168,76,0.35)"
+                          stroke-width="1.5"/>
+                    <path d="M100 22 L176 48 L176 142 L100 218 L24 142 L24 48 Z"
+                          fill="none"
+                          stroke="rgba(201,168,76,0.15)"
+                          stroke-width="1"/>
+                    <text x="100" y="95" text-anchor="middle" class="shield-svg-text">VETERAN</text>
+                    <text x="100" y="115" text-anchor="middle" class="shield-svg-text">OWNED &amp;</text>
+                    <text x="100" y="135" text-anchor="middle" class="shield-svg-text">OPERATED</text>
+                    <text x="100" y="60" text-anchor="middle" font-size="28" fill="rgba(201,168,76,0.85)">⭐</text>
+                    <text x="100" y="165" text-anchor="middle" class="shield-svg-sub">HOUSTON · TEXAS</text>
+                    <text x="100" y="178" text-anchor="middle" class="shield-svg-sub">U.S. ARMY</text>
+                </svg>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section binary-bg" id="contact">
+    <div class="section-inner">
+        <p class="section-label">Get In Touch</p>
+        <h2 class="section-title" style="color:var(--white)">Let's Figure Out What You Actually Need.</h2>
+        <p class="section-sub">No pitch, no pressure. Tell me about your business and I'll tell you what makes sense, and just as importantly, what doesn't.</p>
+        <div class="contact-grid">
+            <div class="contact-info">
+                <h3>Let's Grab a Coffee</h3>
+                <p>I work with local small businesses around Houston and the surrounding area. Happy to meet in person around Porter and North Houston, or work remotely anywhere in Texas. First conversation's always free.</p>
+                <div class="contact-detail"><span class="icon">📍</span><span>Porter, TX · Greater Houston Area</span></div>
+                <div class="contact-detail"><span class="icon">⏱️</span><span>Response within 24 hours</span></div>
+                <div class="contact-detail"><span class="icon">💬</span><span>Free 30-minute discovery call</span></div>
+                <div class="contact-detail"><span class="icon">🤝</span><span>Veteran-owned &amp; operated</span></div>
+            </div>
+            <form class="contact-form" onsubmit="handleSubmit(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Your Name</label>
+                        <input type="text" placeholder="John Smith">
+                    </div>
+                    <div class="form-group">
+                        <label>Business Name</label>
+                        <input type="text" placeholder="Smith's BBQ & Catering">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="john@yourbusiness.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" placeholder="(713) 555-0100">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>What Are You Looking For?</label>
+                    <select>
+                        <option value="">Select a service...</option>
+                        <option>Website Build (Launch Package ($1,500)</option>
+                        <option>Website + Automation (Growth Package ($3,000)</option>
+                        <option>Custom Solution</option>
+                        <option>Not Sure Yet, Just Exploring</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Tell Us About Your Business</label>
+                    <textarea placeholder="What does your business do? What problems are you trying to solve? What's your timeline?"></textarea>
+                </div>
+                <button type="submit" class="form-submit">Send Message →</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="binary-bg">
+    <div class="footer-logo">Hold My Beer Analytics</div>
+    <p class="footer-sub">Houston, TX &nbsp;·&nbsp; Veteran-Owned &nbsp;·&nbsp; AI-Powered Solutions &nbsp;·&nbsp; © 2025</p>
+</footer>
+
+<script>
+    function handleSubmit(e) {
+        e.preventDefault();
+        const btn = e.target.querySelector('.form-submit');
+        btn.textContent = 'Message Sent ✓';
+        btn.style.background = '#2a6644';
+        btn.style.color = '#fff';
+        btn.disabled = true;
+    }
+</script>
+</body>
+</html>
