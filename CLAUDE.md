@@ -46,10 +46,24 @@ Veteran-owned solo operation. Side business alongside full-time work.
 - Veteran background described generically: "helping fellow veterans get support and recognition they earned"
 
 ## Current File Structure
-index.html — full single-page site (hero, why us, services, how it works, pricing, about, contact)
+- index.html — full single-page site (hero, why us, services, how it works, pricing + SEO add-on, about, contact)
+- assets/logo.png — brand logo (hero, oval crop via border-radius)
+- assets/blog.css — shared stylesheet for all blog pages
+- blog/index.html — blog listing page ("The Briefing")
+- blog/*.html — individual posts
+- sitemap.xml, robots.txt — SEO plumbing
+
+## Blog: How to Add a Post
+1. Copy an existing post in blog/ as a template (e.g. google-business-profile-houston.html)
+2. Update: <title>, meta description, og: tags, canonical URL, JSON-LD headline/date, hero, article body
+3. Add a post card to blog/index.html (newest first)
+4. Add a <url> entry to sitemap.xml
+5. Posts are written in first person ("I"), no-BS tone, Houston/local angle, each ends with a CTA box linking to ../#contact
+6. Internal-link between posts and to ../#pricing where natural
 
 ## Next Steps / Backlog
 - Add real contact form backend (Formspree or similar)
-- Add favicon and meta tags for SEO
+- Add favicon
+- Submit sitemap to Google Search Console (needs site verification)
 - Consider adding a portfolio/case studies section once first clients land
 - Mobile nav hamburger menu

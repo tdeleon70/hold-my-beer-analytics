@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tdeleon70.github.io/hold-my-beer-analytics/sitemap.xml
