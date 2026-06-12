@@ -490,6 +490,12 @@
             color: var(--gold);
             line-height: 1;
         }
+        .price-addon .addon-strike {
+            font-size: 1.4rem;
+            color: rgba(255,255,255,0.4);
+            text-decoration-color: rgba(255,255,255,0.55);
+            margin-right: 0.35rem;
+        }
         .price-addon .addon-price span {
             font-family: var(--font-mono);
             font-size: 0.7rem;
@@ -886,10 +892,10 @@
         <!-- SEO Add-On -->
         <div class="price-addon">
             <div>
-                <p class="addon-tier">Add-On · Any Package</p>
+                <p class="addon-tier">Add-On · Bundle &amp; Save</p>
                 <p class="addon-name">Local SEO Domination</p>
-                <p class="addon-price">$675 <span>/ MONTH</span></p>
-                <p class="addon-note">Month-to-month. No long-term contract.<br>Pairs with any package above.</p>
+                <p class="addon-price"><s class="addon-strike">$675</s> $550 <span>/ MONTH</span></p>
+                <p class="addon-note">$550/mo with any package above.<br>SEO on its own: $675/mo.<br>Month-to-month. No long-term contract.</p>
             </div>
             <ul class="price-features">
                 <li>Google Business Profile optimization &amp; management</li>
