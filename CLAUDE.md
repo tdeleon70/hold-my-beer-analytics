@@ -25,6 +25,7 @@ Veteran-owned solo operation. Side business alongside full-time work.
 - Launch Package: $1,500 upfront + $250/month
 - Growth Package: $3,000 upfront + $350/month (featured)
 - Custom: contact for quote
+- Local SEO Domination add-on: $675/month, month-to-month, pairs with any package (GBP management, citations, reviews, rank tracking, local content)
 
 ## Tech Stack
 - Single HTML file with embedded CSS/JS

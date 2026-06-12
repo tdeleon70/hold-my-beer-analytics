@@ -458,6 +458,57 @@
         .price-cta-primary:hover { background: var(--gold-light); }
         .price-cta-outline { border: 1.5px solid var(--green-deep); color: var(--green-deep); }
         .price-cta-outline:hover { background: var(--green-deep); color: var(--white); }
+        .price-addon {
+            margin-top: 1.5rem;
+            background: var(--green-deep);
+            border-radius: 6px;
+            padding: 2.25rem 2.5rem;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 2.5rem;
+            align-items: center;
+            border: 1px solid rgba(201,168,76,0.35);
+        }
+        .price-addon .addon-tier {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--gold);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 0.6rem;
+        }
+        .price-addon .addon-name {
+            font-family: var(--font-display);
+            font-size: 1.65rem;
+            color: var(--white);
+            letter-spacing: 0.04em;
+            margin-bottom: 0.75rem;
+        }
+        .price-addon .addon-price {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            color: var(--gold);
+            line-height: 1;
+        }
+        .price-addon .addon-price span {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.55);
+            letter-spacing: 0.1em;
+        }
+        .price-addon .price-features { margin-bottom: 0; }
+        .price-addon .price-features li { color: rgba(255,255,255,0.8); }
+        .price-addon .addon-note {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.5);
+            margin-top: 1rem;
+            line-height: 1.6;
+        }
+        .price-addon .price-cta { white-space: nowrap; }
+        @media (max-width: 900px) {
+            .price-addon { grid-template-columns: 1fr; gap: 1.75rem; }
+        }
 
         /* === ABOUT === */
         .about-section { background: var(--navy); }
@@ -831,6 +882,23 @@
                 </ul>
                 <a href="#contact" class="price-cta price-cta-outline">Contact Us</a>
             </div>
+        </div>
+        <!-- SEO Add-On -->
+        <div class="price-addon">
+            <div>
+                <p class="addon-tier">Add-On · Any Package</p>
+                <p class="addon-name">Local SEO Domination</p>
+                <p class="addon-price">$675 <span>/ MONTH</span></p>
+                <p class="addon-note">Month-to-month. No long-term contract.<br>Pairs with any package above.</p>
+            </div>
+            <ul class="price-features">
+                <li>Google Business Profile optimization &amp; management</li>
+                <li>Local citations built &amp; cleaned up across the web</li>
+                <li>Review generation &amp; response management</li>
+                <li>Monthly keyword rank tracking &amp; plain-English report</li>
+                <li>Fresh local content posted to keep Google's attention</li>
+            </ul>
+            <a href="#contact" class="price-cta price-cta-primary">Add SEO</a>
         </div>
     </div>
 </section>
